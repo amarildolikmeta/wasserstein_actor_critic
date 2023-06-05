@@ -1,0 +1,11 @@
+#!/bin/bash
+#PBS -S /bin/bash
+#PBS -l nodes=1:ppn=1,walltime=8:00:00 -q test
+#PBS -N lq20oac
+# you can set the stdout and stderr file here
+
+cd '/u/archive/laureandi/sacco/oac-explore'
+source /u/archive/laureandi/sacco/wac_env/bin/activate
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/u/sacco/.mujoco/mujoco200/bin
+
+python main.py --seed=0 --domain=lqg --sigma_noise=0.15 --alg=oac --beta_UB=$beta --delta=$delta --max_path_length=10 --num_layers=2 --layer_size=128 --replay_buffer_size=1e5 --save_heatmap --save_sampled_data --snapshot_mode=last --no_gpu --epochs=200 --suffix=lq20oac/beta"${beta}"_delta"${delta}" > ./data/lq20oac_s"${seed}"_b"${beta}"_d"${delta}" 2>&1

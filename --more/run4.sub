@@ -1,0 +1,11 @@
+#!/bin/bash
+#PBS -S /bin/bash
+#PBS -l nodes=1:ppn=1,walltime=8:00:00 -q test
+#PBS -N RS3_00
+# you can set the stdout and stderr file here
+
+cd '/u/archive/laureandi/sacco/oac-explore'
+source /u/archive/laureandi/sacco/wac_env/bin/activate
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/u/sacco/.mujoco/mujoco200/bin
+
+python main.py --seed=$seed --domain=point --sparse_reward --terminal --clip_state --difficulty=double_L --alg=gs-oac --mean_update --stable_critic --delta=0.95 --max_path_length=300 --std_lr=1e-3 --policy_lr=1e-3 --qf_lr=1e-3 --r_min=-0.5 --r_max=0.5 --prv_std_qty=0.6 --prv_std_weight=0.6 --save_heatmap --epochs=300 --no_gpu --suffix=DL3_GSWACmu_SR > ./data/DL3_GSWACmu_SR-s"${seed}".log 2>&1
